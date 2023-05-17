@@ -9,12 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * @return voidphp
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('image')->default('');
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('deleted_flag')->default(false);
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

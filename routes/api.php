@@ -17,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/p', function () {
+    $products = [
+        ['id' => 1, 'name' => 'Product A', 'price' => 100],
+        ['id' => 2, 'name' => 'Product B', 'price' => 200],
+        ['id' => 3, 'name' => 'Product C', 'price' => 300],
+    ];
+
+    return response()->json($products);
+});

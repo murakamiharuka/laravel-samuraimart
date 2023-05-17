@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\MajorCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,17 +23,19 @@ class ProductController extends Controller
             $products = Product::where('category_id', $request->category)->sortable()->paginate(15);
             $total_count = Product::where('category_id', $request->category)->count();
             $category = Category::find($request->category);
+            $major_category = MajorCategory::find($category->major_category_id);
         } else {
             $products = Product::sortable()->paginate(15);
             $total_count = "";
             $category = null;
+            $major_category = null;
         }
         $categories = Category::all();
-        $major_category_names = Category::pluck('major_category_name')->unique();
+        $major_categories = MajorCategory::all();
         // $campain = User::getCampain(0);
 
 
-        return view('products.index', compact('products', 'category','categories', 'major_category_names', 'total_count'));
+        return view('products.index', compact('products', 'category','major_category', 'categories', 'major_categories', 'total_count'));
     }
 
     /**
