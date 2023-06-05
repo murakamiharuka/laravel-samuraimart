@@ -7,6 +7,8 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Models\ShoppingCart;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserController extends AdminController
 {
@@ -103,5 +105,17 @@ class UserController extends AdminController
         });
 
         return $form;
+    }
+
+    public function cart_history_index(Request $request)
+    {
+        $page = $request->page != null ? $request->page : 1;
+        $user_id = Auth::user()->id;
+        $billings = ShoppingCart::getCurrentUserOrders($user_id);
+        $total = count($billings);
+        $billings = new LengthAwarePaginator(array_slice($billings, ($page -1)* 15, 15), $total, 15, $page, array('path' => $request->url()));
+
+        return view('users.cart_history_index', compact('billings', 'total'));
+
     }
 }
